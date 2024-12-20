@@ -6,19 +6,24 @@ class Charecters {
     }
 
     createAttributes() {
-        let dice = []
-        let  tempDice = 0
-
-        for (let j = 0; j < 4; j++){
-            tempDice = Math.floor(Math.random() * 6) + 1
-                if (tempDice <=1 ){
-                    Math.floor(Math.random() * 6) + 1
+        function addAttributes() {
+            let dice = []
+            let  tempDice = 0
+    
+            for (let j = 0; j < 4; j++){
+                tempDice = Math.floor(Math.random() * 6) + 1
+                    if (tempDice <=1 ){
+                        Math.floor(Math.random() * 6) + 1
+                }
+                dice.push(tempDice);
             }
-            dice.push(tempDice);
+            dice.sort((a, b) => a - b);
+            dice.shift();
+            return dice.reduce((a, b) => a + b, 0)
+        } 
+        for (let i = 0; i <= 2; i++) {
+            this.attributes.push(addAttributes());
         }
-        dice.sort((a, b) => a - b);
-        dice.shift();
-    this.attributes.push(dice.reduce((a, b) => a + b, 0));
     }
 }
 
