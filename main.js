@@ -1,8 +1,9 @@
 class Charecters {
-    constructor(name, age) {
-        this.name = name;
-        this.age = age;
+    constructor(_name, _age) {
+        this.name = _name;
+        this.age = _age;
         this.attributes = [];
+        this.mod = [];
     }
 
     createAttributes() {
@@ -25,8 +26,42 @@ class Charecters {
             this.attributes.push(addAttributes());
         }
     }
+    calculateMod() {
+        for (let i = 0; i < this.attributes.length; i++) {
+            this.mod.push(Math.floor((this.attributes[i] - 10) / 2));
+        }
+    }
 }
 
-const simon = new Charecters("simon", 20,);
-simon.createAttributes();
-console.table(simon.attributes)
+class mage extends Charecters {
+    constructor(name, age) {
+        super(name, age);
+        this.hp = 0
+        this.spells = [];
+    }
+    setCharacter() {
+        super.createAttributes();
+        super.calculateMod();
+        const char = {
+            attributes : this.attributes,
+            mod : this.mod
+        }
+        console.table(char)
+        return char
+    }
+
+    char = this.setCharacter();
+
+    hpCalc() {
+        this.hp = 6 + this.char.mod[0]
+        for (let i = 0; i <=2; i++) {
+            this.hp += Math.floor(Math.random() * 6) + 1 + this.char.mod[0]
+        }
+    }
+
+}
+
+
+const simon = new mage("simon", 20);
+simon.hpCalc();
+console.log(simon.hp)
