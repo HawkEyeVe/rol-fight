@@ -43,24 +43,44 @@ class character {
 }
 
 class Game {
-  _characters: character[];
-  _qty: number = 0;
+  _blueChar: character[];
+  _redChar: character[];
+  _qty: number;
 
-  constructor(qty: number) {
-    this._qty = qty;
-    this._characters = [];
+  constructor() {
+    this._qty = 0;
+    this._blueChar = [];
+    this._redChar = [];
   }
 
-  public createCharacters(): void {
-    for (let i = 0; i < this._qty; i++) {
-      this._characters.push(new character("fighter"));
-      console.log(this._characters);
+  public createchars(qty: number, faction: string): void {
+    for (let i = 0; i < qty; i++) {
+      if (faction === "red") {
+        this._redChar.push(new character("fighter"));
+      } else {
+        this._blueChar.push(new character("fighter"));
+      }
     }
   }
 
-  public get characters(): character[] {
-    return this._characters;
+  public get characters(): object {
+    interface facction {
+      blue: character[];
+      red: character[];
+    }
+    const obj: facction = {
+      blue: this._blueChar,
+      red: this._redChar,
+    };
+    return obj;
   }
 }
 
-const game = new Game(3).createCharacters();
+function app(arg: number): void {
+  const game = new Game();
+  game.createchars(arg, "blue");
+  game.createchars(arg, "red");
+  console.log(game.characters);
+}
+
+app(3);
