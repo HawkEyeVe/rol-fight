@@ -1,3 +1,7 @@
+//! *****************************************
+//! **           roll dice class           **
+//! *****************************************
+
 class RollDice {
   _dice: number;
   _type: number;
@@ -15,9 +19,9 @@ class RollDice {
   }
 }
 
-const role = new RollDice(5, 6).diceRole;
-
-console.log(`the result of the roll is ${role}`);
+//! *****************************************
+//! **           character class           **
+//! *****************************************
 
 class character {
   _name: string;
@@ -41,6 +45,10 @@ class character {
     return this._hp;
   }
 }
+
+//! *****************************************
+//! **           game class                **
+//! *****************************************
 
 class Game {
   _blueChar: character[];
@@ -75,6 +83,10 @@ class Game {
     return obj;
   }
 }
+
+//! *****************************************
+//! **           main                      **
+//! *****************************************
 
 function app(arg: number): void {
   const game = new Game();
