@@ -88,6 +88,23 @@ class Game {
     }
   }
 
+  private doRound(firstTurn: character[], secondTurn: character[]): boolean {
+    for (let attakerIdx = 0; attakerIdx < firstTurn.length; attakerIdx++) {
+      const defenderIdx = Math.floor(Math.random() * secondTurn.length);
+      const defender = secondTurn[defenderIdx];
+      const attacker = firstTurn[attakerIdx];
+      defender.takeDamage(attacker.attack());
+      console.log(`${defender.name} hp: ${defender.hp}`);
+      if (defender.hp <= 0) {
+        console.log(`${defender.name} is dead`);
+        secondTurn.splice(defenderIdx, 1);
+        if (secondTurn.length === 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
   public fight(): void {
     const roll = new RollDice(1, 2);
     let firstTurn: character[];
@@ -99,36 +116,16 @@ class Game {
       firstTurn = this._redChar;
       secondTurn = this._blueChar;
     }
+    //full round
+
     while (this._blueChar.length >= 0 || this._redChar.length >= 0) {
-      for (let i = 0; i < firstTurn.length; i++) {
-        const characterToHit = Math.floor(Math.random() * secondTurn.length);
-        secondTurn[characterToHit].takeDamage(firstTurn[i].attack());
-        console.log(
-          `${secondTurn[characterToHit].name} hp: ${secondTurn[characterToHit].hp}`
-        );
-        if (secondTurn[i].hp <= 0) {
-          console.log(`${secondTurn[characterToHit].name} is dead`);
-          secondTurn.splice(i, 1);
-          if (secondTurn.length === 0) {
-            console.log("red win");
-            return;
-          }
-        }
+      if (this.doRound(firstTurn, secondTurn)) {
+        console.log("first win");
+        return;
       }
-      for (let i = 0; i < secondTurn.length; i++) {
-        const characterToHit = Math.floor(Math.random() * firstTurn.length);
-        firstTurn[characterToHit].takeDamage(secondTurn[i].attack());
-        console.log(
-          `${firstTurn[characterToHit].name} hp: ${firstTurn[characterToHit].hp}`
-        );
-        if (firstTurn[i].hp <= 0) {
-          console.log(`${firstTurn[characterToHit].name} is dead`);
-          firstTurn.splice(i, 1);
-          if (firstTurn.length === 0) {
-            console.log("blue win");
-            return;
-          }
-        }
+      if (this.doRound(secondTurn, firstTurn)) {
+        console.log("second win");
+        return;
       }
     }
   }
@@ -157,4 +154,4 @@ function app(arg: number): void {
   game.fight();
 }
 
-app(3);
+app(1);
